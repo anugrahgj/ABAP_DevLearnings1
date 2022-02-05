@@ -3,32 +3,36 @@
 *&---------------------------------------------------------------------*
 *& Demo Program by AGJ on 04-02-2022
 *&---------------------------------------------------------------------*
-REPORT Z_INVOICE_ITEMS_EURO.
-CLASS LCL_MAIN DEFINITION CREATE PRIVATE.
+REPORT z_invoice_items_euro.
+CLASS lcl_main DEFINITION CREATE PRIVATE.
 
   PUBLIC SECTION.
-    CLASS-METHODS CREATE
+    CLASS-METHODS create
       RETURNING
-        VALUE(R_RESULT) TYPE REF TO LCL_MAIN.
-    METHODS RUN.
+        VALUE(r_result) TYPE REF TO lcl_main.
+    METHODS run.
   PROTECTED SECTION.
   PRIVATE SECTION.
 
 ENDCLASS.
 
-CLASS LCL_MAIN IMPLEMENTATION.
+CLASS lcl_main IMPLEMENTATION.
 
-  METHOD CREATE.
+  METHOD create.
 
-    R_RESULT = NEW #( ).
+    r_result = NEW #( ).
 
   ENDMETHOD.
 
-  METHOD RUN.
+  METHOD run.
+    DATA(num1) = 5.
+    DATA(num2) = 10.
+    DATA(num3) = num1 + num2.
     WRITE: 'Welcome, ', sy-uname, / 'Today''s date is ', sy-datum.
+    WRITE: / '5 Plus 10 = ', num3.
   ENDMETHOD.
 
 ENDCLASS.
 
 START-OF-SELECTION.
-  LCL_MAIN=>CREATE( )->RUN( ).
+  lcl_main=>create( )->run( ).
