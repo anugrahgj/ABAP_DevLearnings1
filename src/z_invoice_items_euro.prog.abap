@@ -10,7 +10,9 @@ CLASS lcl_main DEFINITION CREATE PRIVATE.
     CLASS-METHODS create
       RETURNING
         VALUE(r_result) TYPE REF TO lcl_main.
-    METHODS run.
+    METHODS run
+      RAISING
+        cx_salv_msg.
   PROTECTED SECTION.
   PRIVATE SECTION.
 
@@ -25,11 +27,15 @@ CLASS lcl_main IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD run.
-    DATA(num1) = 5.
-    DATA(num2) = 10.
-    DATA(num3) = num1 + num2.
-    WRITE: 'Welcome, ', sy-uname, / 'Today''s date is ', sy-datum.
-    WRITE: / '5 Plus 10 = ', num3.
+    DATA(invoices) = NEW zcl_invoice_retrieval( ).
+    DATA(invoice_items) = invoices->get_items_from_db( ).
+    cl_salv_table=>factory(
+      IMPORTING
+        r_salv_table = DATA(alv_table)
+      CHANGING
+        t_table      = invoice_items
+    ).
+    alv_table->display( ).
   ENDMETHOD.
 
 ENDCLASS.
